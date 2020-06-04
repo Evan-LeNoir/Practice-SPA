@@ -7,30 +7,66 @@ console.log("Requesting Data from API");
 
 const router = new Navigo(window.location.origin);
 
+axios
+  .get(`https://api.github.com/users/${process.env.GITHUB_USERNAME}/repos`, {
+    headers: {
+      Authorization: `token ${process.env.GITHUB_TOKEN}`
+    }
+  })
+  .then(response => console.log(response.data));
+
+// axios weather maps
+//   .get(
+//     "http://api.openweathermap.org/data/2.5/weather?lat=38.63&lon=-90.2&appid=83584418c514b5e3441dc1e28901d462"
+//   )
+//   .then(response => {
+//     const data = response.data;
+//     console.log("saving weather data to state");
+//     state.Home.weather.city = data.name;
+//     console.log(state.Home);
+//     state.Home.weather.temp = data.main.temp;
+//     console.log(data.weather);
+//     state.Home.weather.description = data.weather[0].main;
+//   })
+//   .then(() => console.log(state.Home));
+
+// axios
+//   .get(
+//     "http://api.openweathermap.org/data/2.5/weather?q=wentzville&appid=6b702ac57cb454e830d28e3290ce7d68"
+//   )
+//   .then(response => {
+//     const data = response.data;
+//     state.Home.weather.city = data.name;
+//     state.Home.weather.temp = data.main.temp;
+//     state.Home.weather.description = data.weather[0].main;
+//   })
+//   .then(() => console.log(state.Home));
+
 // axios.get("https://jsonplaceholder.typicode.com/posts").then(response => {
 //   state.Blog.posts.push(post);
 // });
-axios
-  .get("https://jsonplaceholder.typicode.com/posts", {
-    headers: {
-      "Access-Control-Allow-Origin": window.location.origin
-    }
-  })
-  .then(response => {
-    console.log("API response received");
-    return response;
-  })
-  .then(response => {
-    console.log("response.data", response.data);
-    response.data.forEach(post => {
-      state.Blog.posts.push(post);
-    });
-    const params = router.lastRouteResolved().params;
-    console.log("params", params);
-    if (params) {
-      render(state[params.page]);
-    }
-  });
+
+// axios
+//   .get("https://jsonplaceholder.typicode.com/posts", {
+//     headers: {
+//       "Access-Control-Allow-Origin": window.location.origin
+//     }
+//   })
+//   .then(response => {
+//     console.log("API response received");
+//     return response;
+//   })
+//   .then(response => {
+//     console.log("response.data", response.data);
+//     response.data.forEach(post => {
+//       state.Blog.posts.push(post);
+//     });
+//     const params = router.lastRouteResolved().params;
+//     console.log("params", params);
+//     if (params) {
+//       render(state[params.page]);
+//     }
+//   });
 
 // const render = st => { //this can also be initiated as (const render = (st = state.Home) => {})
 //   document.querySelector("#root").innerHTML = `

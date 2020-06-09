@@ -3,6 +3,7 @@ import * as state from "./store";
 import Navigo from "navigo";
 import { capitalize } from "lodash";
 import axios from "axios";
+import { auth, db } from "./firebase";
 console.log("Requesting Data from API");
 
 const router = new Navigo(window.location.origin);
@@ -89,6 +90,7 @@ function render(st = state.Home) {
   addNavToggle();
   //addEventListener();
   addPicOnSubmit();
+  listenForRegister();
 }
 router
   .on({
@@ -113,6 +115,36 @@ router
 //     });
 //   });
 // }
+
+function listenForRegister(st) {
+  if (st.view === "Register") {
+    document.querySelector("form").addEventListener("submit", event => {
+      event.preventDefault();
+      let inputList = Array.from(event.target.elements);
+      // remove submit button from list
+      inputList.pop();
+      const inputs = inputList.map(input => input.value);
+      let firstName = inputs[0];
+      let lastName = inputs[1];
+      let email = inputs[2];
+      let password = inputs[3];
+
+      auth.createUserWithEmailAndPassword(email, password).then(() => {});
+    });
+  }
+}
+function addUserToState(username, email) {
+  state.User.username = username;
+  state.User.email = email;
+  state.User.loggedin = true;
+}
+function addUserToDb(username, email) {
+  db.collection("users").add({
+    username: username,
+    email: email,
+    loggedin: loggedin
+  });
+}
 
 function addNavToggle() {
   // add menu toggle to bars icon in nav bar
